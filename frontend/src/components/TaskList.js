@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -10,6 +11,7 @@ const TaskList = () => {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -20,13 +22,14 @@ const TaskList = () => {
       } catch (error) {
         console.error('Error fetching tasks:', error);
         setError('Failed to fetch tasks. Please try again.');
+        toast.error('Failed to fetch tasks');
       } finally {
         setLoading(false);
       }
     };
 
     fetchTasks();
-  }, [auth.token]);
+  }, [token]);
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
@@ -35,9 +38,10 @@ const TaskList = () => {
           headers: { Authorization: `Bearer ${auth.token}` }
         });
         setTasks(tasks.filter(task => task._id !== id));
+        toast.success('Task deleted successfully');
       } catch (error) {
         console.error('Error deleting task:', error);
-        alert('Failed to delete task. Please try again.');
+        toast.error('Failed to delete task');
       }
     }
   };
@@ -46,7 +50,7 @@ const TaskList = () => {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="flex flex-col items-center">
-          <div className="loader"></div> {/* Add a spinner or loading animation here */}
+          <div className="loader"></div> {/* Add a spinner or loading animation */}
           <p className="text-lg font-medium text-gray-600 mt-4">Loading tasks...</p>
         </div>
       </div>

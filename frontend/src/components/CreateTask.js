@@ -6,24 +6,31 @@ import { AuthContext } from '../context/AuthContext';
 const CreateTask = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [completed, setCompleted] = useState('false'); // Default to "false"
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!title.trim()) {
       alert('Task title cannot be empty');
       return;
     }
 
     try {
-      await axios.post('/api/tasks', { title, description }, {
-        headers: { Authorization: `Bearer ${auth.token}` }
+      // Convert completed status to boolean
+      const completedStatus = completed === 'true';
+
+      await axios.post('/api/tasks', { title, description, completed: completedStatus }, {
+        headers: { Authorization: `Bearer ${auth.token}` },
       });
-      setTitle(''); // Clear the input field
-      setDescription(''); // Clear the description field
-      navigate('/dashboard'); // Redirect to dashboard
+
+      // Clear the form and navigate to the dashboard
+      setTitle('');
+      setDescription('');
+      setCompleted('false');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error creating task:', error);
       alert('Failed to create task. Please try again.');
@@ -66,6 +73,20 @@ const CreateTask = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Task Description"
+              />
+            </div>
+            <div>
+              <label htmlFor="completed" className="sr-only">
+                Completed Status
+              </label>
+              <input
+                id="completed"
+                name="completed"
+                type="text"
+                value={completed}
+                onChange={(e) => setCompleted(e.target.value.toLowerCase())}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Completed Status (true/false)"
               />
             </div>
           </div>

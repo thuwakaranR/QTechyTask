@@ -24,6 +24,7 @@ const UpdateTask = () => {
       } catch (error) {
         console.error('Error fetching task:', error);
         toast.error('Failed to fetch task');
+        setError('Failed to fetch task');
       } finally {
         setLoading(false);
       }
@@ -67,21 +68,25 @@ const UpdateTask = () => {
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-gray-900">Update Task</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Task Title"
-        className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        required
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Task Description"
-        className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        rows="4"
-      />
+      <div>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Task Title"
+          className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
+      <div>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Task Description"
+          className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          rows="4"
+        />
+      </div>
       <button
         type="submit"
         className="p-3 bg-blue-500 text-white rounded-md w-full hover:bg-blue-600 transition duration-200"

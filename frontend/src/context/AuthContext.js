@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // Correct import for named export
 
 // Create the context
 export const AuthContext = createContext();
@@ -17,7 +17,6 @@ const AuthProvider = ({ children }) => {
           setAuth({ token, user });
         } catch (error) {
           console.error('Failed to decode token:', error);
-          // Optionally, remove invalid token and log out
           localStorage.removeItem('token');
         }
       }
@@ -33,7 +32,6 @@ const AuthProvider = ({ children }) => {
       setAuth({ token, user });
     } catch (error) {
       console.error('Failed to decode token during login:', error);
-      // Optionally, handle the error (e.g., show a message to the user)
     }
   };
 

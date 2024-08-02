@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { LockClosedIcon } from '@heroicons/react/solid'; // Corrected import path
+import { LockClosedIcon } from '@heroicons/react/solid';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -23,14 +23,24 @@ const Login = () => {
 
     try {
       const response = await axios.post('/api/users/login', { email, password });
-      localStorage.setItem('token', response.data.token);
-      navigate('/dashboard');
+      
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        console.log('Login successful, token stored:', response.data.token); // Debugging line
+        navigate('/dashboard');
+      } else {
+        setError('Login failed. No token received.');
+      }
     } catch (error) {
       console.error('Login error:', error);
       setError('Failed to login. Please check your credentials.');
     } finally {
       setLoading(false); // Stop loading indicator
     }
+  };
+
+  const handleRegister = () => {
+    navigate('/register');
   };
 
   return (
@@ -48,7 +58,7 @@ const Login = () => {
         </div>
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           {error && <p className="text-red-500 mb-4">{error}</p>}
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md shadow-sm space-y-px">
             <div>
               <label htmlFor="email-address" className="sr-only">
                 Email address
@@ -61,7 +71,7 @@ const Login = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Email address"
               />
             </div>
@@ -77,13 +87,13 @@ const Login = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Password"
               />
             </div>
           </div>
 
-          <div>
+          <div className="flex items-center justify-between">
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -93,6 +103,16 @@ const Login = () => {
                 <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
               </span>
               {loading ? 'Logging in...' : 'Sign in'}
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={handleRegister}
+              className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              Register
             </button>
           </div>
         </form>
