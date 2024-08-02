@@ -43,37 +43,54 @@ const TaskList = () => {
   };
 
   if (loading) {
-    return <p>Loading tasks...</p>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center">
+          <div className="loader"></div> {/* Add a spinner or loading animation here */}
+          <p className="text-lg font-medium text-gray-600 mt-4">Loading tasks...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <p className="text-red-500">{error}</p>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-lg font-medium text-red-600">{error}</p>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Tasks</h2>
       {tasks.length > 0 ? (
-        tasks.map(task => (
-          <div key={task._id} className="flex justify-between items-center border p-2 mb-2">
-            <span>{task.title}</span>
-            <div>
-              <button
-                onClick={() => navigate(`/update-task/${task._id}`)}
-                className="p-1 bg-yellow-500 text-white rounded mr-2"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(task._id)}
-                className="p-1 bg-red-500 text-white rounded"
-              >
-                Delete
-              </button>
+        <div className="space-y-4">
+          {tasks.map(task => (
+            <div key={task._id} className="flex justify-between items-center border border-gray-300 rounded-lg p-4 bg-white shadow-md">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
+                {task.description && <p className="text-gray-600 mt-2">{task.description}</p>}
+              </div>
+              <div className="space-x-2">
+                <button
+                  onClick={() => navigate(`/update-task/${task._id}`)}
+                  className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition duration-200"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(task._id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-200"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       ) : (
-        <p>No tasks available.</p>
+        <p className="text-gray-600">No tasks available.</p>
       )}
     </div>
   );
