@@ -35,7 +35,7 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full space-y-8 p-6 bg-white rounded-lg shadow-lg">
         <div>
           <img
             className="mx-auto h-12 w-auto"
@@ -47,10 +47,10 @@ const Register = () => {
           </h2>
         </div>
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-          <div className="rounded-md shadow-sm space-y-px">
+          {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+          <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <label htmlFor="username" className="sr-only">
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Username
               </label>
               <input
@@ -61,12 +61,12 @@ const Register = () => {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Username"
               />
             </div>
             <div>
-              <label htmlFor="email-address" className="sr-only">
+              <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
                 Email address
               </label>
               <input
@@ -77,12 +77,12 @@ const Register = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Email address"
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
@@ -93,7 +93,7 @@ const Register = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Password"
               />
             </div>

@@ -48,9 +48,9 @@ const TaskList = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="flex flex-col items-center">
-          <div className="loader"></div> {/* Add a spinner or loading animation */}
+          <div className="loader border-t-4 border-blue-500 border-solid border-8 rounded-full w-12 h-12 animate-spin"></div> {/* Add a spinner */}
           <p className="text-lg font-medium text-gray-600 mt-4">Loading tasks...</p>
         </div>
       </div>
@@ -59,24 +59,24 @@ const TaskList = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <p className="text-lg font-medium text-red-600">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Tasks</h2>
+    <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
+      <h2 className="text-3xl font-bold text-gray-900 mb-6">Your Tasks</h2>
       {tasks.length > 0 ? (
         <div className="space-y-4">
           {tasks.map(task => (
-            <div key={task._id} className="flex justify-between items-center border border-gray-300 rounded-lg p-4 bg-white shadow-md">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
+            <div key={task._id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold text-gray-800">{task.title}</h3>
                 {task.description && <p className="text-gray-600 mt-2">{task.description}</p>}
               </div>
-              <div className="space-x-2">
+              <div className="mt-4 sm:mt-0 flex space-x-2">
                 <button
                   onClick={() => navigate(`/update-task/${task._id}`)}
                   className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition duration-200"

@@ -55,7 +55,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <p className="text-lg font-medium text-gray-600">Loading tasks...</p>
       </div>
     );
@@ -63,34 +63,40 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <p className="text-lg font-medium text-red-600">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">
-          Welcome To Task Board {auth.user?.username || auth.user?.email}
-        </h1>
-        <div className="flex space-x-4">
-          <button
-            onClick={handleCreateTask}
-            className="p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200"
-          >
-            Create Task
-          </button>
-          <button
-            onClick={handleLogout}
-            className="p-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-200"
-          >
-            Logout
-          </button>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="bg-white shadow sm:rounded-lg">
+          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Welcome to Task Board, {auth.user?.username || auth.user?.email}
+            </h1>
+          </div>
+          <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <button
+              onClick={handleCreateTask}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              Create Task
+            </button>
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Logout
+            </button>
+          </div>
+          <div className="px-4 py-5 sm:px-6">
+            <TaskList tasks={tasks} />
+          </div>
         </div>
       </div>
-      <TaskList tasks={tasks} />
     </div>
   );
 };
