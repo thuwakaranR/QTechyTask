@@ -1,4 +1,6 @@
 const Task = require('../models/Task');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId; 
 
 const getTasks = async (req, res) => {
   try {
@@ -10,9 +12,9 @@ const getTasks = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
-  const { userId, title, description, completed } = req.body;
+  const { title, description, completed } = req.body;
   const task = new Task({
-    userId,
+    userId: new ObjectId(req.user.id),
     title,
     description,
     completed,
@@ -20,6 +22,19 @@ const createTask = async (req, res) => {
   try {
     const savedTask = await task.save();
     res.status(201).json(savedTask);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+
+const getById = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    res.json(task);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -47,16 +62,20 @@ const deleteTask = async (req, res) => {
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
     }
-    await task.remove();
+    // if (task.userId.toString() !== req.user.id) {
+    //   return res.status(403).json({ message: 'User not authorized to delete this task' });
+    // }
+    await Task.deleteOne({ _id: task._id });
     res.json({ message: 'Task removed' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-};
+}
 
 module.exports = {
   getTasks,
   createTask,
   updateTask,
   deleteTask,
+  getById
 };
