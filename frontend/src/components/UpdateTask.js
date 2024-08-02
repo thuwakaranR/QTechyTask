@@ -46,8 +46,8 @@ const UpdateTask = () => {
       return;
     }
 
-    if (description && description.length < 100) {
-      toast.error('Task description should be at least 100 characters long if provided');
+    if (description && description.length < 10) {
+      toast.error('Task description should be at least 10 characters long if provided');
       return;
     }
 
