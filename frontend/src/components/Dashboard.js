@@ -6,12 +6,12 @@ import { toast } from 'react-toastify';
 import TaskList from './TaskList';
 
 const Dashboard = () => {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, logout } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const token = auth.token; // Use token from context instead of localStorage
+  const token = auth.token;
 
   useEffect(() => {
     // Redirect to login if no token is present
@@ -41,10 +41,8 @@ const Dashboard = () => {
   const handleLogout = async () => {
     try {
       await axios.post('/api/logout'); // Ensure your backend endpoint handles logout
-      localStorage.removeItem('token');
-      setAuth({ token: null, user: null });
+      logout(navigate); // Use logout function from context and pass navigate
       toast.success('Logout successful');
-      navigate('/');
     } catch (error) {
       console.error('Error logging out:', error);
       toast.error('Failed to log out');

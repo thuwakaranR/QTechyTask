@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Correct import for named export
+import { jwtDecode } from 'jwt-decode'; // Use named import for jwtDecode
 
 // Create the context
 export const AuthContext = createContext();
@@ -35,9 +35,10 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = (navigate) => {
     localStorage.removeItem('token');
     setAuth({ token: null, user: null });
+    navigate('/'); // Redirect to login page
   };
 
   return (

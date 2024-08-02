@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/solid';
+import { AuthContext } from '../context/AuthContext'; // Import AuthContext
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Use login from AuthContext
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ const Login = () => {
       const response = await axios.post('/api/users/login', { email, password });
       
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
+        login(response.data.token); // Use the login function from context
         console.log('Login successful, token stored:', response.data.token); // Debugging line
         navigate('/dashboard');
       } else {
