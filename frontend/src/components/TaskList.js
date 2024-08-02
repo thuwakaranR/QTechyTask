@@ -9,12 +9,12 @@ const TaskList = () => {
   const [error, setError] = useState('');
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  const token = localStorage.getItem('token');
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get('/api/tasks', {
-          headers: { Authorization: `Bearer ${auth.token}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
         setTasks(response.data);
       } catch (error) {

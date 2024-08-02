@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import TaskList from './TaskList';
 
 const Dashboard = () => {
   const { auth, setAuth } = useContext(AuthContext);
@@ -10,17 +11,17 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    if (!auth.token) {
-      navigate('/login');
+    if (!token) {
+      navigate('/');
       return;
     }
-
     const fetchTasks = async () => {
       try {
         const response = await axios.get('/api/tasks', {
-          headers: { Authorization: `Bearer ${auth.token}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
         setTasks(response.data);
       } catch (error) {
@@ -32,16 +33,13 @@ const Dashboard = () => {
     };
 
     fetchTasks();
-  }, [auth.token, navigate]);
+  }, [token, navigate]);
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout', {}, {
-        headers: { Authorization: `Bearer ${auth.token}` }
-      });
-      setAuth({}); // Clear the authentication context
+      localStorage.removeItem('token');
       toast.success('Logout successful');
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       console.error('Error logging out:', error);
       toast.error('Failed to log out');
@@ -75,24 +73,7 @@ const Dashboard = () => {
           Logout
         </button>
       </div>
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your Tasks</h2>
-        <div className="space-y-4">
-          {tasks.length > 0 ? (
-            tasks.map(task => (
-              <div key={task._id} className="p-4 border border-gray-200 rounded-lg bg-gray-50">
-                <h3 className="text-xl font-medium text-gray-900">{task.title}</h3>
-                {task.description && <p className="text-gray-700 mt-2">{task.description}</p>}
-                <p className={`mt-2 ${task.completed ? 'text-green-500' : 'text-red-500'}`}>
-                  {task.completed ? 'Completed' : 'Pending'}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-600">No tasks available.</p>
-          )}
-        </div>
-      </div>
+  <TaskList/>
     </div>
   );
 };

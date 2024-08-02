@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+
 import { useNavigate } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/solid';
 
@@ -23,8 +24,8 @@ const Register = () => {
     }
 
     try {
-      await axios.post('/api/auth/register', { username, email, password });
-      navigate('/login'); // Redirect to login page after successful registration
+      await axios.post('/api/users/register', { username, email, password });
+      navigate('/'); // Redirect to login page after successful registration
     } catch (error) {
       console.error('Registration error:', error);
       setError('Failed to register. Please try again.');
