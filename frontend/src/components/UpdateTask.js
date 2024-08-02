@@ -23,7 +23,12 @@ const UpdateTask = () => {
         setDescription(response.data.description || '');
       } catch (error) {
         console.error('Error fetching task:', error);
-        toast.error('Failed to fetch task');
+        if (error.response?.status === 401) {
+          toast.error('Unauthorized access. Please log in again.');
+          navigate('/login');
+        } else {
+          toast.error('Failed to fetch task');
+        }
         setError('Failed to fetch task');
       } finally {
         setLoading(false);
@@ -31,13 +36,18 @@ const UpdateTask = () => {
     };
 
     fetchTask();
-  }, [id, auth.token]);
+  }, [id, auth.token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!title.trim()) {
       toast.error('Task title cannot be empty');
+      return;
+    }
+
+    if (description && description.length < 100) {
+      toast.error('Task description should be at least 100 characters long if provided');
       return;
     }
 
@@ -49,7 +59,12 @@ const UpdateTask = () => {
       toast.success('Task updated successfully');
     } catch (error) {
       console.error('Error updating task:', error);
-      toast.error('Failed to update task');
+      if (error.response?.status === 401) {
+        toast.error('Unauthorized access. Please log in again.');
+        navigate('/login');
+      } else {
+        toast.error('Failed to update task');
+      }
     }
   };
 
@@ -57,7 +72,7 @@ const UpdateTask = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="flex flex-col items-center">
-          <div className="loader border-t-4 border-blue-500 border-solid border-8 rounded-full w-12 h-12 animate-spin"></div> {/* Add a spinner */}
+          <div className="loader border-t-4 border-blue-500 border-solid border-8 rounded-full w-12 h-12 animate-spin"></div>
           <p className="text-lg font-medium text-gray-600 mt-4">Loading task...</p>
         </div>
       </div>

@@ -25,7 +25,11 @@ const Dashboard = () => {
         const response = await axios.get('/api/tasks', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setTasks(response.data);
+        if (response.status === 200) {
+          setTasks(response.data);
+        } else {
+          throw new Error('Unexpected response status');
+        }
       } catch (error) {
         console.error('Error fetching tasks:', error);
         setError('Failed to fetch tasks. Please try again.');
@@ -93,7 +97,11 @@ const Dashboard = () => {
             </button>
           </div>
           <div className="px-4 py-5 sm:px-6">
-            <TaskList tasks={tasks} />
+            {tasks.length === 0 ? (
+              <p className="text-lg font-medium text-gray-600 text-center">No tasks available.</p>
+            ) : (
+              <TaskList tasks={tasks} />
+            )}
           </div>
         </div>
       </div>

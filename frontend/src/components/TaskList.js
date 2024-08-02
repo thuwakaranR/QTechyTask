@@ -10,7 +10,7 @@ const TaskList = () => {
   const [error, setError] = useState('');
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
+  const token = auth.token; // Use token from context
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -35,7 +35,7 @@ const TaskList = () => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
         await axios.delete(`/api/tasks/${id}`, {
-          headers: { Authorization: `Bearer ${auth.token}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
         setTasks(tasks.filter(task => task._id !== id));
         toast.success('Task deleted successfully');
@@ -50,7 +50,7 @@ const TaskList = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="flex flex-col items-center">
-          <div className="loader border-t-4 border-blue-500 border-solid border-8 rounded-full w-12 h-12 animate-spin"></div> {/* Add a spinner */}
+          <div className="loader border-t-4 border-blue-500 border-solid border-8 rounded-full w-12 h-12 animate-spin"></div>
           <p className="text-lg font-medium text-gray-600 mt-4">Loading tasks...</p>
         </div>
       </div>
@@ -75,6 +75,9 @@ const TaskList = () => {
               <div className="flex-1">
                 <h3 className="text-xl font-semibold text-gray-800">{task.title}</h3>
                 {task.description && <p className="text-gray-600 mt-2">{task.description}</p>}
+                <p className={`mt-2 text-sm ${task.completed ? 'text-green-600' : 'text-red-600'}`}>
+                  {task.completed ? 'Completed' : 'Not Completed'}
+                </p>
               </div>
               <div className="mt-4 sm:mt-0 flex space-x-2">
                 <button

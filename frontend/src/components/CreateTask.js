@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const CreateTask = () => {
   const [title, setTitle] = useState('');
@@ -10,11 +11,21 @@ const CreateTask = () => {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const validateCompletedStatus = (status) => {
+    return status === 'true' || status === 'false';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Basic validation
     if (!title.trim()) {
-      alert('Task title cannot be empty');
+      toast.error('Task title cannot be empty');
+      return;
+    }
+
+    if (!validateCompletedStatus(completed)) {
+      toast.error('Completed status must be "true" or "false"');
       return;
     }
 
@@ -31,9 +42,10 @@ const CreateTask = () => {
       setDescription('');
       setCompleted('false');
       navigate('/dashboard');
+      toast.success('Task created successfully');
     } catch (error) {
       console.error('Error creating task:', error);
-      alert('Failed to create task. Please try again.');
+      toast.error('Failed to create task. Please try again.');
     }
   };
 

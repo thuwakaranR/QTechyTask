@@ -9,15 +9,30 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
+
+  // Validate input fields
+  const validateForm = () => {
+    const errors = {};
+    if (!username.trim()) errors.username = 'Username is required';
+    if (!email.trim()) errors.email = 'Email is required';
+    if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'Email is invalid';
+    if (!password.trim()) errors.password = 'Password is required';
+    if (password.length < 6) errors.password = 'Password must be at least 6 characters long';
+    return errors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(''); // Clear any previous errors
+    setFormErrors({}); // Clear form errors
     setLoading(true); // Start loading indicator
 
-    if (!username || !email || !password) {
-      setError('Please fill out all fields.');
+    // Validate form
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
       setLoading(false);
       return;
     }
@@ -58,12 +73,14 @@ const Register = () => {
                 name="username"
                 type="text"
                 autoComplete="username"
-                required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
+                  formErrors.username ? 'border-red-500' : 'border-gray-300'
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 placeholder="Username"
               />
+              {formErrors.username && <p className="text-red-500 text-sm mt-1">{formErrors.username}</p>}
             </div>
             <div>
               <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
@@ -74,12 +91,14 @@ const Register = () => {
                 name="email"
                 type="email"
                 autoComplete="email"
-                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
+                  formErrors.email ? 'border-red-500' : 'border-gray-300'
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 placeholder="Email address"
               />
+              {formErrors.email && <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>}
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -90,12 +109,14 @@ const Register = () => {
                 name="password"
                 type="password"
                 autoComplete="current-password"
-                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
+                  formErrors.password ? 'border-red-500' : 'border-gray-300'
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 placeholder="Password"
               />
+              {formErrors.password && <p className="text-red-500 text-sm mt-1">{formErrors.password}</p>}
             </div>
           </div>
 
