@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
 const UpdateTask = () => {
-  const { id } = useParams(); // Get task ID from URL parameters
+  const { id } = useParams(); 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(true);
