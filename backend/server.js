@@ -3,13 +3,10 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 
-// Load environment variables from .env file
 dotenv.config();
 
-// Verify environment variables
 console.log('MONGO_URI:', process.env.MONGO_URI);
 
-// Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
 

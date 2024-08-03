@@ -14,8 +14,7 @@ const getTasks = async (req, res) => {
 const createTask = async (req, res) => {
   const { title, description, completed } = req.body;
 
-  // Convert completed to boolean if it's not already
-  const isCompleted = completed === 'true'; // Converts "true"/"false" strings to boolean
+  const isCompleted = completed === 'true'; //"true"/"false" strings
 
   const task = new Task({
     userId: new mongoose.Types.ObjectId(req.user.id),

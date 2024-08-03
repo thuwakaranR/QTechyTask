@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
-router.post('/logout', authMiddleware, logoutUser); // Add logout route with authMiddleware
+//router.post('/logout', authMiddleware, logoutUser);
 router.get('/:id', authMiddleware, getUser);
 
 module.exports = router;

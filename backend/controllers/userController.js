@@ -52,11 +52,11 @@ const getUser = async (req, res) => {
 };
 
 // Add a logout function
-const logoutUser = async (req, res) => {
-  // Here, simply send a success response because JWTs are stateless.
-  // Alternatively, you could implement token blacklisting if necessary.
-  res.status(200).json({ message: 'Logout successful' });
-};
+// const logoutUser = async (req, res) => {
+//   // Here, simply send a success response because JWTs are stateless.
+//   // Alternatively, you could implement token blacklisting if necessary.
+//   res.status(200).json({ message: 'Logout successful' });
+// };
 
 module.exports = {
   registerUser,
