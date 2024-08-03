@@ -10,7 +10,7 @@ const TaskList = () => {
   const [error, setError] = useState('');
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
-  const token = auth.token; // Use token from context
+  const token = auth.token; 
 
   useEffect(() => {
     const fetchTasks = async () => {

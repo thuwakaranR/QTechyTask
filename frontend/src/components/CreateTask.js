@@ -18,7 +18,6 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (!title.trim()) {
       toast.error('Task title cannot be empty');
       return;
@@ -30,14 +29,12 @@ const CreateTask = () => {
     }
 
     try {
-      // Convert completed status to boolean
       const completedStatus = completed === 'true';
 
       await axios.post('/api/tasks', { title, description, completed: completedStatus }, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
 
-      // Clear the form and navigate to the dashboard
       setTitle('');
       setDescription('');
       setCompleted('false');

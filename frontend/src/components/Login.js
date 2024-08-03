@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/solid';
-import { AuthContext } from '../context/AuthContext'; // Import AuthContext
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -24,9 +24,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous errors
-    setFormErrors({}); // Clear form errors
-    setLoading(true); // Start loading indicator
+    setError(''); 
+    setFormErrors({}); 
+    setLoading(true); 
 
     // Validate form
     const errors = validateForm();
@@ -40,7 +40,7 @@ const Login = () => {
       const response = await axios.post('/api/users/login', { email, password });
       
       if (response.data.token) {
-        login(response.data.token); // Use the login function from context
+        login(response.data.token); 
         navigate('/dashboard');
       } else {
         setError('Login failed. No token received.');
@@ -49,7 +49,7 @@ const Login = () => {
       console.error('Login error:', error);
       setError('Failed to login. Please check your credentials.');
     } finally {
-      setLoading(false); // Stop loading indicator
+      setLoading(false); 
     }
   };
 

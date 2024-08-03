@@ -25,9 +25,9 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous errors
-    setFormErrors({}); // Clear form errors
-    setLoading(true); // Start loading indicator
+    setError(''); 
+    setFormErrors({}); 
+    setLoading(true); 
 
     // Validate form
     const errors = validateForm();
@@ -44,7 +44,7 @@ const Register = () => {
       console.error('Registration error:', error);
       setError('Failed to register. Please try again.');
     } finally {
-      setLoading(false); // Stop loading indicator
+      setLoading(false); 
     }
   };
 

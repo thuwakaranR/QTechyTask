@@ -1,14 +1,12 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Use named import
+import { jwtDecode } from 'jwt-decode'; 
 
-// Create the context
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({ token: null, user: null });
 
   useEffect(() => {
-    // Load token from localStorage and decode it if it exists
     const loadAuthData = () => {
       const token = localStorage.getItem('token');
       if (token) {
