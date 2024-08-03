@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Register a new user
 const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
   console.log('✌️username --->', username);
@@ -19,6 +20,7 @@ const registerUser = async (req, res) => {
   }
 };
 
+// Login user and generate JWT
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -39,6 +41,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+// Get user by ID
 const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
@@ -51,16 +54,15 @@ const getUser = async (req, res) => {
   }
 };
 
-// Add a logout function
-// const logoutUser = async (req, res) => {
-//   // Here, simply send a success response because JWTs are stateless.
-//   // Alternatively, you could implement token blacklisting if necessary.
-//   res.status(200).json({ message: 'Logout successful' });
-// };
+// Logout user
+const logoutUser = (req, res) => {
+  res.status(200).json({ message: 'Logout successful' });
+};
 
+// Exporting all functions
 module.exports = {
   registerUser,
   loginUser,
   getUser,
-  logoutUser, // Export the logout function
+  logoutUser,
 };

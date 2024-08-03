@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ message: 'No token, authorization denied' });
   }
 
-  // Extract the token from the header
+  // Extract the token 
   const token = authHeader.split(' ')[1];
 
   try {
