@@ -1,3 +1,4 @@
+// src/components/Dashboard.js
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +15,6 @@ const Dashboard = () => {
   const token = auth.token;
 
   useEffect(() => {
-    // Redirect to login if no token is present
     if (!token) {
       navigate('/');
       return;
@@ -44,11 +44,18 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout'); // Ensure your backend endpoint handles logout
-      logout(navigate); // Use logout function from context and pass navigate
+      // Call backend to handle server-side logout if needed
+      //await axios.post('/api/logout'); 
+      // Call logout function from AuthContext to update frontend state
+      logout(navigate); // This should handle clearing the token from local storage and updating the context
+  
+      // Display success message
       toast.success('Logout successful');
+  
     } catch (error) {
       console.error('Error logging out:', error);
+  
+      // Display error message
       toast.error('Failed to log out');
     }
   };
