@@ -29,6 +29,12 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err.message);
+  res.status(500).json({ message: 'Server error' });
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
